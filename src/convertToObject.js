@@ -7,23 +7,17 @@
  */
 function convertToObject(sourceString) {
   const arrayOfLines = sourceString.split(';');
-  const result = {};
+  const convertableString = arrayOfLines.reduce((prev, line) => {
+    const [key, value] = line.trim().split(':');
 
-  for (let i = 0; i < arrayOfLines.length; i++) {
-    const line = arrayOfLines[i].trim().split(':');
-
-    if (line[0] === undefined || line[0].length < 1) {
-      continue;
+    if (key && value) {
+      prev[key.trim()] = value.trim();
     }
 
-    if (line[1] === undefined || line[1].length < 1) {
-      continue;
-    }
+    return prev;
+  }, {});
 
-    result[line[0].trim()] = line[1].trim();
-  }
-
-  return result;
+  return convertableString;
 }
 
 module.exports = convertToObject;
